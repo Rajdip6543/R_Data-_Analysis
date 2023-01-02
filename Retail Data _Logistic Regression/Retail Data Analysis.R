@@ -1,0 +1,68 @@
+retail_data<-read.csv(file.choose())
+library(caTools)
+retail1<-retail_data
+library(carData)
+colnames(retail_data)
+class(retail_data$Months.Since.Last.Buy)
+class(retail_data$Mens.Merchandise)
+class(retail_data$Spend.Category)
+class(retail_data$Sale.Made)
+class(retail_data$Womens.Merchandise)
+class(retail_data$Area)
+class(retail_data$New.Customer)
+class(retail_data$Purchase.Channel)
+class(retail_data$Visited.Website)
+class(retail1$Purchase.Channel)
+summary(retail1)
+str(retail1)
+retail_in_Rural<- subset(retail1,Area=="Rural")
+retail_in_Surburban<- subset(retail1,Area=="Surburban")
+retail_in_Urban<- subset(retail1,Area=="Urban")
+mean(retail_in_Urban$Sale.Made)
+mean(retail_in_Surburban$Sale.Made)
+mean(retail_in_Rural$Sale.Made)
+retail_in_Rural = subset(retail_in_Rural, select = -c(Spend.Category) )
+retail_in_Surburban = subset(retail_in_Surburban, select = -c(Spend.Category) )
+retail_in_Urban = subset(retail_in_Urban, select = -c(Spend.Category) )
+mean(retail_in_Rural$New.Customer)
+mean(retail_in_Surburban$New.Customer)
+mean(retail_in_Urban$New.Customer)
+mean(retail_in_Rural$Spend.Numeric)
+mean(retail_in_Surburban$Spend.Numeric)
+mean(retail_in_Urban$Spend.Numeric)
+#sales is more in slightly more in urban than rural and surburban ,
+#But money spend in urban is less than rural and greater than surburban.
+t.test(retail_in_Rural$Spend.Numeric,retail_in_Urban$Spend.Numeric)
+summary(retail_in_Rural)
+summary(retail_in_Surburban)
+summary(retail_in_Urban)
+head(retail_in_Rural)
+head(retail1)
+plot(retail_data$Months.Since.Last.Buy,retail_data$Mens.Merchandise)
+plot(retail_data$Spend.Numeric,retail_data$Mens.Merchandise)
+hist(retail_in_Rural$Spend.Numeric,xlab = "Spend money ",prob=T)
+lines(density(retail_in_Rural$Spend.Numeric),lty="dashed",lwd=2.5,col="red")
+
+hist(retail_in_Surburban$Spend.Numeric,xlab = "Spend money ",prob=T)
+lines(density(retail_in_Surburban$Spend.Numeric),lty="dashed",lwd=2.5,col="red")
+
+hist(retail_in_Urban$Spend.Numeric,xlab = "Spend money ",prob=T)
+lines(density(retail_in_Urban$Spend.Numeric),lty="dashed",lwd=2.5,col="red")
+pairs(retail_in_Rural,col="blue")
+
+log_retail_Rural<-glm(Sale.Made~Months.Since.Last.Buy+Mens.Merchandise +Womens.Merchandise ,data = retail_in_Rural,family = "binomial")
+
+log_retail_Rural1<-glm(Sale.Made~Mens.Merchandise +Womens.Merchandise ,data = retail_in_Rural,family = "binomial")
+
+summary(log_retail_Rural)
+plot(log_retail_Rural)
+
+log_retail_Urban<-glm(Sale.Made~Months.Since.Last.Buy+Mens.Merchandise +Womens.Merchandise ,data = retail_in_Urban,family = "binomial")
+plot(log_retail_Urban)
+
+log_retail_Surburban<-glm(Sale.Made~Months.Since.Last.Buy+Mens.Merchandise +Womens.Merchandise ,data = retail_in_Surburban,family = "binomial")
+plot(log_retail_Surburban)
+
+plot(log_retail_Rural)
+head(retail_in_Rural)
+
